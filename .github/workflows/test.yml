@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: brew install argp-standalone libudev-dev
+      - run: brew install argp-standalone 
       - run: make 
 
       #- if: matrix.volume == 'relative-path'
@@ -96,7 +96,11 @@ jobs:
       #- run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
       - run: |
-          make all extra
+         git clone --recursive https://github.com/mcatalancid/libudev
+         cd libudev
+         make -f Makefile.am install
+         cd ..
+         make all extra 
 
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -126,8 +130,8 @@ jobs:
 
       - uses: cygwin/cygwin-install-action@v2
         with:
-          packages: gcc-core libargp-devel make libudev-dev
-
+          packages: gcc-core libargp-devel make
+          
       - run: "$Env:LDFLAGS = '-Wl,--stack,4000000'; make"
 
      # - if: matrix.volume.windows == 'relative-path'
@@ -146,6 +150,10 @@ jobs:
       #- run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
 
       - run: |
+          git clone --recursive https://github.com/mcatalancid/libudev
+          cd libudev
+          make -f Makefile.am install
+          cd ..
           make all extra 
         
       - name: Windows BUILD
