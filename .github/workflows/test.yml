@@ -51,7 +51,7 @@ jobs:
 
 
       - run: |
-          make
+          make all extra
 
       - name: Linux BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -81,7 +81,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: brew install argp-standalone
-      - run: make
+      - run: make all extra
 
       #- if: matrix.volume == 'relative-path'
       #  run: mkdir relative-path
@@ -100,7 +100,7 @@ jobs:
 
 
       - run: |
-          make
+          make all extra
 
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -151,7 +151,7 @@ jobs:
 
 
       - run: |
-          make 
+          make all extra 
         
       - name: Windows BUILD
         uses: actions/upload-artifact@v4.1.0
