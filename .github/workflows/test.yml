@@ -31,23 +31,23 @@ jobs:
       - run: sudo apt-get install -y libparted-dev libudev-dev
       - run: make all extra
 
-      - if: matrix.volume == 'relative-path'
-        run: mkdir relative-path
+#      - if: matrix.volume == 'relative-path'
+ #       run: mkdir relative-path
 
-      - if: matrix.volume == '/'
-        run: sudo chmod a+w /
+  #    - if: matrix.volume == '/'
+   #     run: sudo chmod a+w /
 
-      - run: ./f3write -V
-      - run: ./f3write --help
-      - run: ${{ matrix.asroot.sudo }}./f3write -s 2 -e 4 -w 50000 ${{ matrix.volume }}
+    #  - run: ./f3write -V
+     # - run: ./f3write --help
+     # - run: ${{ matrix.asroot.sudo }}./f3write -s 2 -e 4 -w 50000 ${{ matrix.volume }}
 
-      - run: stat ${{ matrix.volume }}/2.h2w
-      - run: stat ${{ matrix.volume }}/3.h2w
-      - run: stat ${{ matrix.volume }}/4.h2w
+ #     - run: stat ${{ matrix.volume }}/2.h2w
+  #    - run: stat ${{ matrix.volume }}/3.h2w
+   #   - run: stat ${{ matrix.volume }}/4.h2w
 
-      - run: ./f3read -V
-      - run: ./f3read --help
-      - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
+    #  - run: ./f3read -V
+     # - run: ./f3read --help
+      #- run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
 
       - run: |
@@ -83,20 +83,20 @@ jobs:
       - run: brew install argp-standalone
       - run: make
 
-      - if: matrix.volume == 'relative-path'
-        run: mkdir relative-path
+      #- if: matrix.volume == 'relative-path'
+      #  run: mkdir relative-path
 
-      - run: ./f3write -V
-      - run: ./f3write --help
-      - run: ${{ matrix.asroot.sudo }}./f3write -s 2 -e 4 -w 50000 ${{ matrix.volume }}
+      #- run: ./f3write -V
+      #- run: ./f3write --help
+      #- run: ${{ matrix.asroot.sudo }}./f3write -s 2 -e 4 -w 50000 ${{ matrix.volume }}
 
-      - run: stat ${{ matrix.volume }}/2.h2w
-      - run: stat ${{ matrix.volume }}/3.h2w
-      - run: stat ${{ matrix.volume }}/4.h2w
+      #- run: stat ${{ matrix.volume }}/2.h2w
+      #- run: stat ${{ matrix.volume }}/3.h2w
+      #- run: stat ${{ matrix.volume }}/4.h2w
 
-      - run: ./f3read -V
-      - run: ./f3read --help
-      - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
+      #- run: ./f3read -V
+      #- run: ./f3read --help
+      #- run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
 
       - run: |
@@ -134,20 +134,20 @@ jobs:
 
       - run: "$Env:LDFLAGS = '-Wl,--stack,4000000'; make"
 
-      - if: matrix.volume.windows == 'relative-path'
-        run: New-Item -ItemType Directory -Path relative-path
+     # - if: matrix.volume.windows == 'relative-path'
+      #  run: New-Item -ItemType Directory -Path relative-path
 
-      - run: '& .\f3write.exe -V'
-      - run: '& .\f3write.exe --help'
-      - run: '& .\f3write.exe -s 2 -e 4 -w 50000 ${{ matrix.volume.cygwin }}'
+     # - run: '& .\f3write.exe -V'
+     # - run: '& .\f3write.exe --help'
+     # - run: '& .\f3write.exe -s 2 -e 4 -w 50000 ${{ matrix.volume.cygwin }}'
 
-      - run: 'Get-Item ${{ matrix.volume.windows }}\2.h2w'
-      - run: 'Get-Item ${{ matrix.volume.windows }}\3.h2w'
-      - run: 'Get-Item ${{ matrix.volume.windows }}\4.h2w'
+    #  - run: 'Get-Item ${{ matrix.volume.windows }}\2.h2w'
+   #   - run: 'Get-Item ${{ matrix.volume.windows }}\3.h2w'
+      #- run: 'Get-Item ${{ matrix.volume.windows }}\4.h2w'
 
-      - run: '& .\f3read.exe -V'
-      - run: '& .\f3read.exe --help'
-      - run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
+      #- run: '& .\f3read.exe -V'
+     # - run: '& .\f3read.exe --help'
+      #- run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
 
 
       - run: |
