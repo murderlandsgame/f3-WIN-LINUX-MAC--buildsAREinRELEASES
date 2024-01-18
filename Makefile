@@ -41,10 +41,10 @@ f3read: utils.o libflow.o f3read.o
 	$(CC) -o $@ $^ $(LDFLAGS) -lm
 
 f3probe: libutils.o libdevs.o libprobe.o f3probe.o
-	$(CC) -o $@ $^ $(LDFLAGS) -lm -ludev
+	$(CC) -o $@ $^ $(LDFLAGS) -lm -Llibudev
 
 f3brew: libutils.o libdevs.o f3brew.o
-	$(CC) -o $@ $^ $(LDFLAGS) -lm -ludev
+	$(CC) -o $@ $^ $(LDFLAGS) -lm -Llibudev
 
 f3fix: libutils.o f3fix.o
 	$(CC) -o $@ $^ $(LDFLAGS) -lparted
