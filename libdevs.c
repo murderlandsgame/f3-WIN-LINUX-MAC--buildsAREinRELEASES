@@ -22,7 +22,7 @@
 	#include <linux/fs.h>
 	#include <linux/usbdevice_fs.h>
 #else
-	"libudev/src/libudev.h"
+	#include "libudev/src/libudev.h"
 #endif
 
 
