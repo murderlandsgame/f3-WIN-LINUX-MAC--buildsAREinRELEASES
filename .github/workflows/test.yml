@@ -49,6 +49,10 @@ jobs:
       - run: ./f3read --help
       - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
+      - name: Upload a Build Artifact
+        with: 
+          path: ./f3*
+
   MacOS:
     strategy:
       fail-fast: false
@@ -87,6 +91,10 @@ jobs:
       - run: ./f3read -V
       - run: ./f3read --help
       - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
+
+      - name: Upload a Build Artifact
+        with: 
+          path: ./f3*
 
   Cygwin:
     strategy:
@@ -128,3 +136,7 @@ jobs:
       - run: '& .\f3read.exe -V'
       - run: '& .\f3read.exe --help'
       - run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
+
+      - name: Upload a Build Artifact
+        with: 
+          path: ./f3*
