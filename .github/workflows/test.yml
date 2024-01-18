@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: sudo apt-get install -y libparted-dev libudev-dev
-      - run: make
+      - run: make all extra
 
 #      - if: matrix.volume == 'relative-path'
  #       run: mkdir relative-path
@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: brew install argp-standalone
-      - run: make all extra
+      - run: make 
 
       #- if: matrix.volume == 'relative-path'
       #  run: mkdir relative-path
