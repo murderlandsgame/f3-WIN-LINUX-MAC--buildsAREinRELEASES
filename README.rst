@@ -1,3 +1,8 @@
+WINDOWS MAC AND LINUX BUILDS FOUND IN RELEASE
+MISSING f3probe and f3fix rn
+next release should have them as well as f3write and f3read
+
+
 f3 - Fight Flash Fraud
 ======================
 
