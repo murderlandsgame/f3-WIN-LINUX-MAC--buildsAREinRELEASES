@@ -97,14 +97,6 @@ jobs:
 
       - run: |
           git clone --recursive https://github.com/mcatalancid/libudev.git
-          cd libudev
-          bash
-          chmod +x autogen.sh
-          ./autogen.sh
-          make
-          make all install
-
-      - run: |
           make all extra
 
       - name: Mac BUILD
@@ -156,14 +148,6 @@ jobs:
 
       - run: |
           git clone --recursive https://github.com/mcatalancid/libudev.git
-          cd libudev
-          bash
-          chmod +x autogen.sh
-          ./autogen.sh
-          make
-          make all install
-
-      - run: |
           make all extra 
         
       - name: Windows BUILD
