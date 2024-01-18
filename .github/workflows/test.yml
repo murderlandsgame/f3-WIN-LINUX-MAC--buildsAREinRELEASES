@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - run: brew install argp-standalone 
+      - run: brew install argp-standalone build-essential git cmake ninja-build libudev-dev gcc-6 g++-6
       - run: make 
 
       #- if: matrix.volume == 'relative-path'
@@ -97,7 +97,6 @@ jobs:
 
       - run: |
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
-          ./scripts/install-deps.sh
           ./scripts/build-all.sh
           make all extra 
 
@@ -129,7 +128,7 @@ jobs:
 
       - uses: cygwin/cygwin-install-action@v2
         with:
-          packages: gcc-core libargp-devel make
+          packages: gcc-core libargp-devel make build-essential git cmake ninja-build libudev-dev gcc-6 g++-6
           
       - run: "$Env:LDFLAGS = '-Wl,--stack,4000000'; make"
 
@@ -151,7 +150,6 @@ jobs:
       - run: |
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           cd libudev
-          bash ./scripts/install-deps.sh
           bash ./scripts/build-all.sh
           make all extra 
         
