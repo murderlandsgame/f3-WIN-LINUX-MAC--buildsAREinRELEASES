@@ -21,10 +21,11 @@
 #if defined(__linux__)
 	#include <linux/fs.h>
 	#include <linux/usbdevice_fs.h>
+#else
+	"libudev/src/libudev.h"
 #endif
 
 
-#include <libudev.h>
 #include "libutils.h"
 #include "libdevs.h"
 
