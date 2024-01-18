@@ -526,8 +526,7 @@ static struct udev_monitor *create_monitor(struct udev *udev,
 
 	mon = udev_monitor_new_from_netlink(udev, "udev");
 	//assert(mon);
-	//assert(!udev_monitor_filter_add_match_subsystem_devtype(mon,
-		subsystem, devtype));
+	//assert(!udev_monitor_filter_add_match_subsystem_devtype(mon, subsystem, devtype));
 	//assert(!udev_monitor_enable_receiving(mon));
 	mon_fd = udev_monitor_get_fd(mon);
 	//assert(mon_fd >= 0);
