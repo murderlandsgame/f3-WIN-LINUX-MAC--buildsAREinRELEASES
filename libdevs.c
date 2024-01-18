@@ -39,7 +39,7 @@ static const char * const ftype_to_name[FKTY_MAX] = {
 
 const char *fake_type_to_name(enum fake_type fake_type)
 {
-	assert(fake_type < FKTY_MAX);
+	//assert(fake_type < FKTY_MAX);
 	return ftype_to_name[fake_type];
 }
 
@@ -72,8 +72,7 @@ enum fake_type dev_param_to_type(uint64_t real_size_byte,
 {
 	uint64_t two_wrap;
 
-	assert(dev_param_valid(real_size_byte, announced_size_byte,
-		wrap, block_order));
+	//assert(dev_param_valid(real_size_byte, announced_size_byte, wrap, block_order));
 
 	if (real_size_byte == announced_size_byte)
 		return FKTY_GOOD;
@@ -129,7 +128,7 @@ int dev_read_blocks(struct device *dev, char *buf,
 {
 	if (first_pos > last_pos)
 		return false;
-	assert(last_pos < (dev->size_byte >> dev->block_order));
+	//assert(last_pos < (dev->size_byte >> dev->block_order));
 	return dev->read_blocks(dev, buf, first_pos, last_pos);
 }
 
@@ -138,7 +137,7 @@ int dev_write_blocks(struct device *dev, const char *buf,
 {
 	if (first_pos > last_pos)
 		return false;
-	assert(last_pos < (dev->size_byte >> dev->block_order));
+	//assert(last_pos < (dev->size_byte >> dev->block_order));
 	return dev->write_blocks(dev, buf, first_pos, last_pos);
 }
 
@@ -201,15 +200,15 @@ static int fdev_read_block(struct device *dev, char *buf, uint64_t block_pos)
 	off_ret = lseek(fdev->fd, offset, SEEK_SET);
 	if (off_ret < 0)
 		return - errno;
-	assert(off_ret == offset);
+	//assert(off_ret == offset);
 
 	done = 0;
 	do {
 		ssize_t rc = read(fdev->fd, buf + done, block_size - done);
-		assert(rc >= 0);
+		//assert(rc >= 0);
 		if (!rc) {
 			/* Tried to read beyond the end of the file. */
-			assert(!done);
+			//assert(!done);
 			memset(buf, 0, block_size);
 			done += block_size;
 		}
@@ -280,7 +279,7 @@ static int fdev_write_block(struct device *dev, const char *buf,
 	off_ret = lseek(fdev->fd, offset, SEEK_SET);
 	if (off_ret < 0)
 		return - errno;
-	assert(off_ret == offset);
+	//assert(off_ret == offset);
 
 	return write_all(fdev->fd, buf, block_size);
 }
@@ -306,7 +305,7 @@ static void fdev_free(struct device *dev)
 	free(fdev->cache_blocks);
 	free(fdev->cache_entries);
 	free((void *)fdev->filename);
-	assert(!close(fdev->fd));
+	//assert(!close(fdev->fd));
 }
 
 static const char *fdev_get_filename(struct device *dev)
@@ -357,16 +356,16 @@ struct device *create_file_device(const char *filename,
 		/* Unlinking the file now guarantees that it won't exist if
 		 * there is a crash.
 		 */
-		assert(!unlink(filename));
+		//assert(!unlink(filename));
 	}
 
 	if (!block_order) {
 		struct stat fd_stat;
 		blksize_t block_size;
-		assert(!fstat(fdev->fd, &fd_stat));
+		//assert(!fstat(fdev->fd, &fd_stat));
 		block_size = fd_stat.st_blksize;
 		block_order = ilog2(block_size);
-		assert(block_size == (1 << block_order));
+		//assert(block_size == (1 << block_order));
 	}
 
 	if (!dev_param_valid(real_size_byte, fake_size_byte, wrap, block_order))
@@ -388,7 +387,7 @@ struct device *create_file_device(const char *filename,
 keep_file:
 	if (keep_file)
 		unlink(filename);
-	assert(!close(fdev->fd));
+	//assert(!close(fdev->fd));
 cache:
 	free(fdev->cache_blocks);
 	free(fdev->cache_entries);
@@ -433,7 +432,7 @@ static int read_all(int fd, char *buf, size_t count)
 			}
 			return - errno;
 		}
-		assert(rc != 0); /* We should never hit the end of the file. */
+		//assert(rc != 0); /* We should never hit the end of the file. */
 		done += rc;
 	} while (done < count);
 	return 0;
@@ -449,7 +448,7 @@ static int bdev_read_blocks(struct device *dev, char *buf,
 	off_t off_ret = lseek(bdev->fd, offset, SEEK_SET);
 	if (off_ret < 0)
 		return - errno;
-	assert(off_ret == offset);
+	//assert(off_ret == offset);
 	return read_all(bdev->fd, buf, length);
 }
 
@@ -464,7 +463,7 @@ static int bdev_write_blocks(struct device *dev, const char *buf,
 	int rc;
 	if (off_ret < 0)
 		return - errno;
-	assert(off_ret == offset);
+	//assert(off_ret == offset);
 	rc = write_all(bdev->fd, buf, length);
 	if (rc)
 		return rc;
@@ -526,15 +525,15 @@ static struct udev_monitor *create_monitor(struct udev *udev,
 	int mon_fd, flags;
 
 	mon = udev_monitor_new_from_netlink(udev, "udev");
-	assert(mon);
-	assert(!udev_monitor_filter_add_match_subsystem_devtype(mon,
+	//assert(mon);
+	//assert(!udev_monitor_filter_add_match_subsystem_devtype(mon,
 		subsystem, devtype));
-	assert(!udev_monitor_enable_receiving(mon));
+	//assert(!udev_monitor_enable_receiving(mon));
 	mon_fd = udev_monitor_get_fd(mon);
-	assert(mon_fd >= 0);
+	//assert(mon_fd >= 0);
 	flags = fcntl(mon_fd, F_GETFL);
-	assert(flags >= 0);
-	assert(!fcntl(mon_fd, F_SETFL, flags & ~O_NONBLOCK));
+	//assert(flags >= 0);
+	//assert(!fcntl(mon_fd, F_SETFL, flags & ~O_NONBLOCK));
 
 	return mon;
 }
@@ -548,7 +547,7 @@ static uint64_t get_udev_dev_size_byte(struct udev_device *dev)
 	if (!str_size_sector)
 		return 0;
 	size_sector = strtoll(str_size_sector, &end, 10);
-	assert(!*end);
+	//assert(!*end);
 	return size_sector * 512LL;
 }
 
@@ -646,7 +645,7 @@ next:
 	rc = 0;
 
 mon:
-	assert(!udev_monitor_unref(mon));
+	//assert(!udev_monitor_unref(mon));
 out:
 	return rc;
 }
@@ -702,7 +701,7 @@ static int bdev_manual_usb_reset(struct device *dev)
 	 * The code is robust enough to deal with the case the drive doesn't
 	 * receive the same file name, though.
 	 */
-	assert(!close(bdev->fd));
+	//assert(!close(bdev->fd));
 	bdev->fd = -1;
 
 	printf("Please unplug and plug back the USB drive. Waiting...");
@@ -710,7 +709,7 @@ static int bdev_manual_usb_reset(struct device *dev)
 	rc = wait_for_reset(udev, id_serial, dev_get_size_byte(dev),
 		&bdev->filename);
 	if (rc) {
-		assert(rc < 0);
+		//assert(rc < 0);
 		goto usb_dev;
 	}
 	printf(" Thanks\n\n");
@@ -729,7 +728,7 @@ usb_dev:
 udev_dev:
 	udev_device_unref(udev_dev);
 udev:
-	assert(!udev_unref(udev));
+	//assert(!udev_unref(udev));
 out:
 	return rc;
 }
@@ -785,7 +784,7 @@ static int usb_fd_from_block_dev(int block_fd, int open_flags)
 usb_dev:
 	udev_device_unref(usb_dev);
 udev:
-	assert(!udev_unref(udev));
+	//assert(!udev_unref(udev));
 out:
 	return usb_fd;
 }
@@ -807,10 +806,10 @@ static int bdev_usb_reset(struct device *dev)
 	if (usb_fd < 0)
 		return usb_fd;
 
-	assert(!close(bdev->fd));
+	//assert(!close(bdev->fd));
 	bdev->fd = -1;
-	assert(!ioctl(usb_fd, USBDEVFS_RESET));
-	assert(!close(usb_fd));
+	//assert(!ioctl(usb_fd, USBDEVFS_RESET));
+	//assert(!close(usb_fd));
 	bdev->fd = bdev_open(bdev->filename);
 	if (bdev->fd < 0) {
 		int rc = - errno;
@@ -830,7 +829,7 @@ static void bdev_free(struct device *dev)
 {
 	struct block_device *bdev = dev_bdev(dev);
 	if (bdev->fd >= 0)
-		assert(!close(bdev->fd));
+		//assert(!close(bdev->fd));
 	free((void *)bdev->filename);
 }
 
@@ -902,11 +901,11 @@ struct device *create_block_device(const char *filename, enum reset_type rt)
 			filename);
 		goto udev;
 	}
-	assert(!strcmp(udev_device_get_subsystem(fd_dev), "block"));
+	//assert(!strcmp(udev_device_get_subsystem(fd_dev), "block"));
 	s = udev_device_get_devtype(fd_dev);
 	if (!strcmp(s, "partition")) {
 		struct udev_device *disk_dev = map_partition_to_disk(fd_dev);
-		assert(disk_dev);
+		//assert(disk_dev);
 		s = udev_device_get_devnode(disk_dev);
 		fprintf(stderr, "Device `%s' is a partition of disk device `%s'.\n"
 			"You must run %s on the disk device as follows:\n"
@@ -935,7 +934,7 @@ struct device *create_block_device(const char *filename, enum reset_type rt)
 		udev_device_unref(usb_dev);
 	}
 	udev_device_unref(fd_dev);
-	assert(!udev_unref(udev));
+	//assert(!udev_unref(udev));
 
 	switch (rt) {
 	case RT_MANUAL_USB:
@@ -948,14 +947,14 @@ struct device *create_block_device(const char *filename, enum reset_type rt)
 		bdev->dev.reset = bdev_none_reset;
 		break;
 	default:
-		assert(0);
+		//assert(0);
 	}
 
-	assert(!ioctl(bdev->fd, BLKGETSIZE64, &bdev->dev.size_byte));
+	//assert(!ioctl(bdev->fd, BLKGETSIZE64, &bdev->dev.size_byte));
 
-	assert(!ioctl(bdev->fd, BLKSSZGET, &block_size));
+	//assert(!ioctl(bdev->fd, BLKSSZGET, &block_size));
 	block_order = ilog2(block_size);
-	assert(block_size == (1 << block_order));
+	//assert(block_size == (1 << block_order));
 	bdev->dev.block_order = block_order;
 
 	bdev->dev.read_blocks = bdev_read_blocks;
@@ -968,9 +967,9 @@ struct device *create_block_device(const char *filename, enum reset_type rt)
 fd_dev:
 	udev_device_unref(fd_dev);
 udev:
-	assert(!udev_unref(udev));
+	//assert(!udev_unref(udev));
 fd:
-	assert(!close(bdev->fd));
+	//assert(!close(bdev->fd));
 filename:
 	free((void *)bdev->filename);
 bdev:
@@ -1005,10 +1004,10 @@ static int pdev_read_blocks(struct device *dev, char *buf,
 	struct timeval t1, t2;
 	int rc;
 
-	assert(!gettimeofday(&t1, NULL));
+	//assert(!gettimeofday(&t1, NULL));
 	rc = pdev->shadow_dev->read_blocks(pdev->shadow_dev, buf,
 		first_pos, last_pos);
-	assert(!gettimeofday(&t2, NULL));
+	//assert(!gettimeofday(&t2, NULL));
 	pdev->read_count += last_pos - first_pos + 1;
 	pdev->read_time_us += diff_timeval_us(&t1, &t2);
 	return rc;
@@ -1021,10 +1020,10 @@ static int pdev_write_blocks(struct device *dev, const char *buf,
 	struct timeval t1, t2;
 	int rc;
 
-	assert(!gettimeofday(&t1, NULL));
+	//assert(!gettimeofday(&t1, NULL));
 	rc = pdev->shadow_dev->write_blocks(pdev->shadow_dev, buf,
 		first_pos, last_pos);
-	assert(!gettimeofday(&t2, NULL));
+	//assert(!gettimeofday(&t2, NULL));
 	pdev->write_count += last_pos - first_pos + 1;
 	pdev->write_time_us += diff_timeval_us(&t1, &t2);
 	return rc;
@@ -1036,9 +1035,9 @@ static int pdev_reset(struct device *dev)
 	struct timeval t1, t2;
 	int rc;
 
-	assert(!gettimeofday(&t1, NULL));
+	//assert(!gettimeofday(&t1, NULL));
 	rc = dev_reset(pdev->shadow_dev);
-	assert(!gettimeofday(&t2, NULL));
+	//assert(!gettimeofday(&t2, NULL));
 	pdev->reset_count++;
 	pdev->reset_time_us += diff_timeval_us(&t1, &t2);
 	return rc;
@@ -1190,7 +1189,7 @@ static int sdev_load_blocks(struct safe_device *sdev,
 		(sdev->sb_n << block_order);
 	int rc;
 
-	assert(sdev->sb_n + (last_pos - first_pos + 1) < sdev->sb_max);
+	//assert(sdev->sb_n + (last_pos - first_pos + 1) < sdev->sb_max);
 
 	rc = sdev->shadow_dev->read_blocks(sdev->shadow_dev, block_buf,
 		first_pos, last_pos);
@@ -1221,7 +1220,7 @@ static int sdev_save_block(struct safe_device *sdev,
 			} else if (start_pos == pos) {
 				/* Do nothing. */
 			} else {
-				assert(0);
+				//assert(0);
 			}
 			start_pos = pos + 1;
 		}
