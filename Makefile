@@ -14,7 +14,7 @@ endif
 ifneq ($(OS), Linux)
 	ARGP = /usr/local
 	CFLAGS += -I$(ARGP)/include
-	LDFLAGS += -L$(ARGP)/lib -largp -ludev
+	LDFLAGS += -L$(ARGP)/lib -largp
 endif
 
 all: $(TARGETS)
