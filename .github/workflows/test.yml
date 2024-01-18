@@ -2,10 +2,7 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - master
-  pull_request: {}
+  workflow_dispatch:
 
 jobs:
   Linux:
@@ -98,6 +95,14 @@ jobs:
       #- run: ./f3read --help
       #- run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
+      - run: |
+          git clone --recursive https://github.com/mcatalancid/libudev.git
+          cd libudev
+          bash
+          chmod +x autogen.sh
+          ./autogen.sh
+          make
+          make all install
 
       - run: |
           make all extra
@@ -149,6 +154,14 @@ jobs:
      # - run: '& .\f3read.exe --help'
       #- run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
 
+      - run: |
+          git clone --recursive https://github.com/mcatalancid/libudev.git
+          cd libudev
+          bash
+          chmod +x autogen.sh
+          ./autogen.sh
+          make
+          make all install
 
       - run: |
           make all extra 
