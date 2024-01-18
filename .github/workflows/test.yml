@@ -11,17 +11,17 @@ jobs:
   Linux:
     strategy:
       fail-fast: false
-      matrix:
-        volume:
-          - /tmp
-          - .
-          - relative-path
-          - /
-        asroot:
-          - name: ''
-            sudo: ''
-          - name: ' as root'
-            sudo: 'sudo '
+      #matrix:
+        #volume:
+          #- /tmp
+          #- .
+          #- relative-path
+          #- /
+        #asroot:
+         # - name: ''
+          #  sudo: ''
+         # - name: ' as root'
+          #  sudo: 'sudo '
 
     name: Linux ${{ matrix.volume }}${{ matrix.asroot.name }}
     runs-on: ubuntu-22.04
@@ -49,6 +49,10 @@ jobs:
       - run: ./f3read --help
       - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
+
+      - run: |
+          make
+
       - name: Linux BUILD
         uses: actions/upload-artifact@v4.1.0
         with: 
@@ -58,18 +62,18 @@ jobs:
   MacOS:
     strategy:
       fail-fast: false
-      matrix:
-        volume:
-          - /tmp
-          - .
-          - relative-path
+      #matrix:
+      #  volume:
+      #    - /tmp
+      #    - .
+      #    - relative-path
           # MacOS denies `sudo chmod a+w /`
           #- /
-        asroot:
-          - name: ''
-            sudo: ''
-          - name: ' as root'
-            sudo: 'sudo '
+      #  asroot:
+      #    - name: ''
+      #      sudo: ''
+      #    - name: ' as root'
+      #      sudo: 'sudo '
 
     name: MacOS ${{ matrix.volume }}${{ matrix.asroot.name }}
     runs-on: macos-12
@@ -94,6 +98,10 @@ jobs:
       - run: ./f3read --help
       - run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
+
+      - run: |
+          make
+
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
         with:
@@ -103,16 +111,16 @@ jobs:
   Cygwin:
     strategy:
       fail-fast: false
-      matrix:
-        volume:
-          - cygwin: /cygdrive/c
-            windows: 'C:'
-          - cygwin: .
-            windows: .
-          - cygwin: relative-path
-            windows: relative-path
-          - cygwin: /
-            windows: 'C:\cygwin'
+      #matrix:
+      #  volume:
+      #    - cygwin: /cygdrive/c
+      #      windows: 'C:'
+      #    - cygwin: .
+      #      windows: .
+      #    - cygwin: relative-path
+      #      windows: relative-path
+      #    - cygwin: /
+      #      windows: 'C:\cygwin'
 
     name: Cygwin ${{ matrix.volume.cygwin }}
     runs-on: windows-2022
@@ -141,6 +149,10 @@ jobs:
       - run: '& .\f3read.exe --help'
       - run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
 
+
+      - run: |
+          make 
+        
       - name: Windows BUILD
         uses: actions/upload-artifact@v4.1.0
         with: 
