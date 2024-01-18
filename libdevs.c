@@ -16,8 +16,13 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <linux/fs.h>
-#include <linux/usbdevice_fs.h>
+
+
+#if defined(__linux__)
+	#include <linux/fs.h>
+	#include <linux/usbdevice_fs.h>
+#endif
+
 #include <libudev.h>
 
 #include "libutils.h"
