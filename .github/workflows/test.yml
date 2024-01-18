@@ -96,11 +96,10 @@ jobs:
       #- run: ${{ matrix.asroot.sudo }}./f3read -s 2 -e 4 -r 50000 ${{ matrix.volume }}
 
       - run: |
-         git clone --recursive https://github.com/mcatalancid/libudev
-         cd libudev
-         make -f Makefile.am install
-         cd ..
-         make all extra 
+          git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
+          ./scripts/install-deps.sh
+          ./scripts/build-all.sh
+          make all extra 
 
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -150,10 +149,10 @@ jobs:
       #- run: '& .\f3read.exe -s 2 -e 4 -r 50000 ${{ matrix.volume.cygwin }}'
 
       - run: |
-          git clone --recursive https://github.com/mcatalancid/libudev
+          git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           cd libudev
-          make -f Makefile.am install
-          cd ..
+          bash ./scripts/install-deps.sh
+          bash ./scripts/build-all.sh
           make all extra 
         
       - name: Windows BUILD
