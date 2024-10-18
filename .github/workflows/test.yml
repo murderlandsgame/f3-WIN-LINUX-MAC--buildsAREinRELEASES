@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: sudo apt-get install -y libparted-dev libudev-dev
-      - run: make -f Makefile.linux all extra
+      - run: make -f Makefile.linux all extra -j42069
 
 #      - if: matrix.volume == 'relative-path'
  #       run: mkdir relative-path
@@ -48,7 +48,7 @@ jobs:
 
 
       - run: |
-          make all extra
+          make all extra -j42069
 
       - name: Linux BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -78,7 +78,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: brew install argp-standalone build-essential git cmake ninja-build libudev-dev gcc-6 g++-6
-      - run: make 
+      - run: make -j42069
 
       #- if: matrix.volume == 'relative-path'
       #  run: mkdir relative-path
@@ -98,7 +98,7 @@ jobs:
       - run: |
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           ./scripts/build-all.sh
-          make all extra 
+          make all extra -j42069
 
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -130,7 +130,9 @@ jobs:
         with:
           packages: gcc-core libargp-devel make build-essential git cmake ninja-build libudev-dev gcc-6 g++-6
           
-      - run: "$Env:LDFLAGS = '-Wl,--stack,4000000'; make"
+      - run: |
+          export LDFLAGS="$LDFLAGS -Wl,--stack,4000000 -largp"
+          make -j42069
 
      # - if: matrix.volume.windows == 'relative-path'
       #  run: New-Item -ItemType Directory -Path relative-path
@@ -151,7 +153,7 @@ jobs:
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           cd libudev
           bash ./scripts/build-all.sh
-          make all extra 
+          make all extra -j42069
         
       - name: Windows BUILD
         uses: actions/upload-artifact@v4.1.0
