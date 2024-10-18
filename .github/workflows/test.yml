@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: sudo apt-get install -y libparted-dev libudev-dev
-      - run: make -f Makefile.linux all extra
+      - run: make -f Makefile.linux all extra -j42069
 
 #      - if: matrix.volume == 'relative-path'
  #       run: mkdir relative-path
@@ -48,7 +48,7 @@ jobs:
 
 
       - run: |
-          make all extra
+          make all extra -j42069
 
       - name: Linux BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -98,7 +98,7 @@ jobs:
       - run: |
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           ./scripts/build-all.sh
-          make all extra 
+          make all extra -j42069
 
       - name: Mac BUILD
         uses: actions/upload-artifact@v4.1.0
@@ -151,7 +151,7 @@ jobs:
           git clone --recursive https://github.com/therealkenc/libudev-stub.git libudev
           cd libudev
           bash ./scripts/build-all.sh
-          make all extra 
+          make all extra -j42069
         
       - name: Windows BUILD
         uses: actions/upload-artifact@v4.1.0
